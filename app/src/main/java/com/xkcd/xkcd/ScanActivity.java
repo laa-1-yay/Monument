@@ -9,6 +9,13 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -16,7 +23,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     private ZXingScannerView mScannerView;
     static String TAG = "ScanActivity";
-    String place = "";
 
     @Override
     public void onCreate(Bundle state) {
@@ -43,10 +49,20 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         // Do something with the result here
         Log.v(TAG, rawResult.getText()); // Prints scan results
         Log.v(TAG, rawResult.getBarcodeFormat().toString());
-        place = getLocationFromLoc();
-        Toast.makeText(getApplicationContext(),"Welcome to "+place, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Places");
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (object == null) {
+                    Log.d("data", "The getFirst request failed.");
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    Log.d("data", "Retrieved the object.");
+                }
+            }
+        });
+
          // Prints the scan format (qrcode, pdf417 etc.)
         // If you would like to resume scanning, call this method below:
 //        mScannerView.resumeCameraPreview(this);
@@ -75,6 +91,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     String getLocationFromLoc(){
-        return "xyz";
+        return "";
     }
+
 }
