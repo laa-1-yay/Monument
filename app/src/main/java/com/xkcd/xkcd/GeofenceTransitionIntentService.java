@@ -98,8 +98,9 @@ public class GeofenceTransitionIntentService extends IntentService {
 
             createNotification();
 
-            Intent intent1 = new Intent(GeofenceTransitionIntentService.this , DialogActivity.class);
-            startActivity(intent1);
+            /*Intent intent1 = new Intent(GeofenceTransitionIntentService.this , DialogActivity.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent1);*/
 
             //mHandler.post(new ToastRunnable());
 
@@ -179,9 +180,7 @@ public class GeofenceTransitionIntentService extends IntentService {
                     des.setText(object.get("Des").toString());
 
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+
 
 
                 } else {
