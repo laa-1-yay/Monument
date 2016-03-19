@@ -14,26 +14,35 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
 
     protected String TAG= "MainActivity";
     protected ArrayList<Geofence> mGeofenceList;
 
     protected GoogleApiClient mGoogleApiClient;
-
+    private GoogleMap mGoogleMap;
 
     private PendingIntent mGeofencePendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.maps_activity);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mGeofenceList = new ArrayList<Geofence>();
 
@@ -41,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements
         mGeofencePendingIntent = null;
 
         // Get the geofences used. Geofence data is hard coded in this sample.
-        populateGeofenceList();
+        //populateGeofenceList();
 
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
-        addGeofencesHandler();
+        populateGeofenceList();
     }
 
     @Override
@@ -93,7 +102,13 @@ public class MainActivity extends AppCompatActivity implements
         // onConnected() will be called again automatically when the service reconnects
     }
 
-
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        LatLng sydney = new LatLng(28.6174263,77.1953708);
+        mGoogleMap.addMarker(new MarkerOptions().position(sydney).title("Marker"));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
 
     public void addGeofencesHandler() {
         if (!mGoogleApiClient.isConnected()) {
@@ -103,15 +118,13 @@ public class MainActivity extends AppCompatActivity implements
 
         Log.d(TAG, "Adding geofence");
         try {
+
             LocationServices.GeofencingApi.addGeofences(
                     mGoogleApiClient,
-                    // The GeofenceRequest object.
                     getGeofencingRequest(),
-                    // A pending intent that that is reused when calling removeGeofences(). This
-                    // pending intent is used to generate an intent when a matched geofence
-                    // transition is observed.
                     getGeofencePendingIntent()
-            ).setResultCallback(this); // Result processed in onResult().
+            ).setResultCallback(this);
+
         } catch (SecurityException securityException) {
             // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
             logSecurityException(securityException);
@@ -144,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements
     public void onResult(Status status) {
         if (status.isSuccess()) {
             // Update state and save in shared preferences.
+
+
 
             Log.d(TAG, "Added");
 
@@ -201,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements
                     // Create the geofence.
                     .build());
         }
+
+        addGeofencesHandler();
     }
 
 

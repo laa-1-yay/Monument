@@ -1,8 +1,13 @@
 package com.xkcd.xkcd;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,6 +24,8 @@ import java.util.List;
 public class GeofenceTransitionIntentService extends IntentService {
 
     private static final String TAG = "TransitionIntentService";
+    private NotificationManager myNotificationManager;
+    private int notificationIdOne = 110;
 
     public GeofenceTransitionIntentService(){
         super(TAG);
@@ -56,6 +63,7 @@ public class GeofenceTransitionIntentService extends IntentService {
                     triggeringGeofences
             );
 
+            createNotification();
             Log.i(TAG, geofenceTransitionDetails);
             Toast.makeText(this,geofenceTransitionDetails,Toast.LENGTH_SHORT).show();
         } else {
@@ -93,4 +101,40 @@ public class GeofenceTransitionIntentService extends IntentService {
                 return "UNKNOWN";
         }
     }
+
+    protected void createNotification() {
+
+        // Invoking the default notification service
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setContentTitle("GEOFENCE");
+        mBuilder.setContentText("Something happened");
+
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        // Increase notification number every time a new notification arrives
+        // Creates an explicit intent for an Activity in your app
+        // Intent resultIntent = new Intent(context, NotificationRecieverActivity.class);
+
+        Intent resultIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+        //This ensures that navigating backward from the Activity leads out of the app to Home page
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+
+        stackBuilder.addParentStack(MainActivity.class);
+
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_ONE_SHOT //can only be used once
+                );
+        // start the activity when the user clicks the notification text
+        mBuilder.setContentIntent(resultPendingIntent);
+        mBuilder.setAutoCancel(true);
+        myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // pass the Notification object to the system
+        myNotificationManager.notify(notificationIdOne, mBuilder.build());
+    }
+
 }

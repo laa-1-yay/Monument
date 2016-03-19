@@ -13,4 +13,6 @@
         Unknown error: the Geofence service is not available now
     </string>
 
+    <string name="google_maps_key">AIzaSyBh4yriZHs7jj77bJ7Z_n6y4NJ6QTPWcik</string>
+
 </resources>
