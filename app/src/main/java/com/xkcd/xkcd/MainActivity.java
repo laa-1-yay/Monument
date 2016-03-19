@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        mGoogleMap.setMyLocationEnabled(true);
         LatLng zail = new LatLng(28.6174303,77.1954033);
         LatLng radha = new LatLng(28.6174263,77.1953708);
         mGoogleMap.addMarker(

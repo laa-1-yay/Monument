@@ -7,7 +7,7 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -37,6 +37,7 @@ public class GeofenceTransitionIntentService extends IntentService {
     private static final String TAG = "TransitionIntentService";
     private NotificationManager myNotificationManager;
     private int notificationIdOne = 110;
+    private Handler mHandler;
 
     public GeofenceTransitionIntentService(){
         super(TAG);
@@ -45,6 +46,9 @@ public class GeofenceTransitionIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mHandler = new Handler();
+
     }
 
     @Override
@@ -75,20 +79,29 @@ public class GeofenceTransitionIntentService extends IntentService {
             );
 
 
-            new CountDownTimer(20000, 1000) {
+            /*new CountDownTimer(7000, 1000) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    
+                    Log.d("aa", "s");
+
                 }
 
                 public void onFinish() {
                     createNotification();
+                    mHandler.post(new ToastRunnable());
+
                 }
 
-            }.start();
+            }.start();*/
 
 
+            createNotification();
+
+            Intent intent1 = new Intent(GeofenceTransitionIntentService.this , DialogActivity.class);
+            startActivity(intent1);
+
+            //mHandler.post(new ToastRunnable());
 
             Log.i(TAG, geofenceTransitionDetails);
             //Toast.makeText(this,"aaa" +geofenceTransitionDetails,Toast.LENGTH_SHORT).show();
@@ -128,9 +141,22 @@ public class GeofenceTransitionIntentService extends IntentService {
         }
     }
 
+    private class ToastRunnable implements Runnable {
+
+        public ToastRunnable() {
+
+        }
+
+        @Override
+        public void run() {
+            showDialog();
+        }
+    }
+
 
     public void showDialog(){
-        Dialog dialog = new Dialog(getApplicationContext());
+
+        Dialog dialog = new Dialog(GeofenceTransitionIntentService.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
 //        Drawable d = new ColorDrawable(getApplicationContext().getResources().getColor(R.color.gray_dark));
 //        dialog.getWindow().setBackgroundDrawable(d);
@@ -154,6 +180,7 @@ public class GeofenceTransitionIntentService extends IntentService {
 
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
 
 
