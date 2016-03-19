@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.zxing.Result;
 
@@ -15,6 +16,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     private ZXingScannerView mScannerView;
     static String TAG = "ScanActivity";
+    String place = "";
 
     @Override
     public void onCreate(Bundle state) {
@@ -41,6 +43,8 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         // Do something with the result here
         Log.v(TAG, rawResult.getText()); // Prints scan results
         Log.v(TAG, rawResult.getBarcodeFormat().toString());
+        place = getLocationFromLoc();
+        Toast.makeText(getApplicationContext(),"Welcome to "+place, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
          // Prints the scan format (qrcode, pdf417 etc.)
@@ -68,5 +72,9 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    String getLocationFromLoc(){
+        return "xyz";
     }
 }
