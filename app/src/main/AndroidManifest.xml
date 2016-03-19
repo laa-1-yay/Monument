@@ -41,7 +41,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".InfoPage" >
+        <activity android:name=".InfoPage"
+            android:theme="@style/InfoTheme"
+            >
         </activity>
 
         <service android:name=".GeofenceTransitionIntentService"/>

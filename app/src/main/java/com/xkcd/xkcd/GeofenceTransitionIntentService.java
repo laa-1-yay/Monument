@@ -64,6 +64,7 @@ public class GeofenceTransitionIntentService extends IntentService {
             );
 
             createNotification();
+
             Log.i(TAG, geofenceTransitionDetails);
             //Toast.makeText(this,"aaa" +geofenceTransitionDetails,Toast.LENGTH_SHORT).show();
         } else {
