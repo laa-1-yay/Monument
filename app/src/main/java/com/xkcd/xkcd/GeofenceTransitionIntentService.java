@@ -7,8 +7,7 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -75,7 +74,21 @@ public class GeofenceTransitionIntentService extends IntentService {
                     triggeringGeofences
             );
 
-            createNotification();
+
+            new CountDownTimer(20000, 1000) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    
+                }
+
+                public void onFinish() {
+                    createNotification();
+                }
+
+            }.start();
+
+
 
             Log.i(TAG, geofenceTransitionDetails);
             //Toast.makeText(this,"aaa" +geofenceTransitionDetails,Toast.LENGTH_SHORT).show();
