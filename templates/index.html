@@ -77,27 +77,42 @@
             <div class="col-md-7 intro-left">
                 <div class="col-md1-12 left-upper">
                     <img src="{{url_for('static', filename='img/heat.png')}}">
-                </div>      
-                <div class="col-md1-12 left-bottom">Bottom</div>      
+                    <center>
+                    <p>Frequency of people around the monument</p>
+                    </center>
+                </div>
+                <div class="col-md1-12 left-bottom">
+                    <div id="container" style="min-width: 310px;height:400px; margin: 0 auto"></div>
+                </div>
             </div>
             <div class="col-md-5 intro-right">
-                <div class="col-md-12 right-upper">R-upper</div>
-                <div class="col-md-12 right-mid">R-bottom</div>
-                <div class="col-md-12 right-bottom">R-bottom</div>
+                <div class="col-md-12 right-upper">
+                    <img style="height:200px;width:200px;" src="{{url_for('static', filename='img/img1.jpg')}}">
+                </div>
+                <div class="col-md-12 right-mid">
+                    <img style="height:200px;width:200px;" src="{{url_for('static', filename='img/img2.jpg')}}">
+                </div>
+                <div class="col-md-12 right-bottom">
+                    <img style="height:200px;width:200px;" src="{{url_for('static', filename='img/img3.jpg')}}">
+                </div>
             </div>
         </div>
     </section>
     <!-- <footer> -->
-        <!-- <center> -->
-        <!-- Copyright @xkcd team | Code for India'16 -->
-        <!-- </center> -->
+    <!-- <center> -->
+    <!-- Copyright @xkcd team | Code for India'16 -->
+    <!-- </center> -->
     <!-- </footer> -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//code.highcharts.com/highcharts.js"></script>
+    <script src="//code.highcharts.com/modules/exporting.js"></script>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <script>
     window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
     </script>
     <script src="{{url_for('static', filename='js/vendor/bootstrap.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{url_for('static', filename='js/chart.js')}}"></script>
     <script src="{{url_for('static', filename='js/parallax.js')}}"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

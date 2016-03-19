@@ -4,7 +4,7 @@ html {
 }
 
 #intro {
-	height: 762px;
+	height: 900px;
 	width: 100%;
 }
 
@@ -14,11 +14,11 @@ html {
 }
 
 .intro-left {
-	height: 762px;
+	height: 900px;
 }
 
 .intro-right {
-	height: 762px;
+	height: 900px;
 	overflow-y: scroll; 
 }
 
@@ -31,4 +31,8 @@ html {
 .left-bottom {
 	height: 362px;
 	border-right: 1px solid black;
+}
+
+.right-upper, .right-mid, .right-bottom {
+	padding: 40px;
 }
