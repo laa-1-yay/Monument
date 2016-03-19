@@ -6,16 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.zxing.Result;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -50,18 +42,8 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         Log.v(TAG, rawResult.getText()); // Prints scan results
         Log.v(TAG, rawResult.getBarcodeFormat().toString());
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Places");
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("data", "The getFirst request failed.");
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    Log.d("data", "Retrieved the object.");
-                }
-            }
-        });
+        Intent intent = new Intent(getApplicationContext(), InfoPage.class);
+        startActivity(intent);
 
          // Prints the scan format (qrcode, pdf417 etc.)
         // If you would like to resume scanning, call this method below:
