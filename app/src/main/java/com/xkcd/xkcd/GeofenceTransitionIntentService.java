@@ -65,7 +65,7 @@ public class GeofenceTransitionIntentService extends IntentService {
 
             createNotification();
             Log.i(TAG, geofenceTransitionDetails);
-            Toast.makeText(this,geofenceTransitionDetails,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"aaa" +geofenceTransitionDetails,Toast.LENGTH_SHORT).show();
         } else {
             // Log the error.
             Log.e(TAG, "Geofence transition error: invalid transition type " + geofenceTransition);

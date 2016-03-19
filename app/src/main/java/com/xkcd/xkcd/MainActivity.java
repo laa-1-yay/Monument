@@ -105,9 +105,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        LatLng sydney = new LatLng(28.6174263,77.1953708);
-        mGoogleMap.addMarker(new MarkerOptions().position(sydney).title("Marker"));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng zail = new LatLng(28.6174303,77.1954033);
+        LatLng radha = new LatLng(28.6174263,77.1953708);
+        mGoogleMap.addMarker(new MarkerOptions().position(radha).title("Marker"));
+        mGoogleMap.addMarker(new MarkerOptions().position(zail).title("Marker"));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(radha,20));
     }
 
     public void addGeofencesHandler() {
@@ -223,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_EXIT | GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
