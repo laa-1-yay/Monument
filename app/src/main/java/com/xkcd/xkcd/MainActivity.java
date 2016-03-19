@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -32,6 +33,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     protected GoogleApiClient mGoogleApiClient;
     private GoogleMap mGoogleMap;
+
+    private String RADHA_KRISHNAN_DESC="Sarvepalli Radhakrishnan(5 September 1888 – 17 April 1975) was an Indian philosopher and statesman[1] who was the first Vice President of India (1952–1962) and the second President of India from 1962 to 1967.\n" +
+            "One of India's most distinguished twentieth-century scholars of comparative religion and philosophy,[2][web 2] his academic appointments included the King George V Chair of Mental and Moral Science at the University of Calcutta (1921–1932) and Spalding Professor of Eastern Religion and Ethics at University of Oxford (1936–1952).";
+
+    private String ZAIL_DESC = "Gyani Zail Singh (Punjabi: ਜ਼ੈਲ ਸਿੰਘ, About this sound pronunciation (help·info); 5 May 1916 – 25 December 1994) was the seventh President of India, serving from 1982 to 1987. Prior to his presidency, he was a politician with the Indian National Congress party, and had held several ministerial posts in the Union Cabinet, including that of Home Minister.\n" +
+            "His presidency was marked by Operation Blue Star, the assassination of Indira Gandhi, and the 1984 anti-Sikh riots.[2] He died of injuries in 1994 after a car accident.";
 
     private PendingIntent mGeofencePendingIntent;
 
@@ -105,9 +112,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        LatLng sydney = new LatLng(28.6174263,77.1953708);
-        mGoogleMap.addMarker(new MarkerOptions().position(sydney).title("Marker"));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng zail = new LatLng(28.6174303,77.1954033);
+        LatLng radha = new LatLng(28.6174263,77.1953708);
+        mGoogleMap.addMarker(
+                new MarkerOptions()
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                .position(radha)
+                .title("Sarvepalli Radhakrishnan\n"+RADHA_KRISHNAN_DESC)
+                .visible(true)
+        );
+        mGoogleMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                .position(zail)
+                .title("Zail Singh\n"+ZAIL_DESC)
+                .visible(true));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(radha,20));
     }
 
     public void addGeofencesHandler() {
@@ -223,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_EXIT | GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
